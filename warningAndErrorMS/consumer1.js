@@ -22,11 +22,12 @@ async function consumeMessages() {
   await this.channel.assertExchange(exchangeName, "direct");
 
   // 4. create a queue
-  const q = await this.channel.assertQueue(config.rabbitMQ.queueName);
+  const q = await this.channel.assertQueue("warningAndErrorQueue");
 
   // 5. bind the queue to exchange
-  const routingKey = "Info";
-  await this.channel.bindQueue(q.queue, exchangeName, "Info");
+  
+  await this.channel.bindQueue(q.queue, exchangeName, "Warning");
+  await this.channel.bindQueue(q.queue, exchangeName, "Error");
 
   // 6. consume the message from the queue
 
